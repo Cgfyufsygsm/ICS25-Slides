@@ -28,7 +28,7 @@ fonts:
 lineNumbers: true
 
 layout: cover
-coverBackgroundUrl: cover.jpg
+coverBackgroundUrl: 00-Introduction/cover.jpg
 ---
 
 # 欢迎来到 ICS 课程
