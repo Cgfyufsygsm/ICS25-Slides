@@ -35,7 +35,7 @@ jobs:
         run: npm i -D playwright-chromium
 
       - name: Build
-        run: nr build --base /${{github.event.repository.name}}/
+        run: chmod +x *.sh && bash apply_all.sh ${{github.event.repository.name}}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
