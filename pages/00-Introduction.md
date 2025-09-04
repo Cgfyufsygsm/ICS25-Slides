@@ -23,6 +23,9 @@ fonts:
   mono: '"Consolas", "华文中宋", "宋体"'
 
 lineNumbers: true
+
+layout: cover
+coverBackgroundUrl: cover.jpg
 ---
 
 # 欢迎来到 ICS 课程
