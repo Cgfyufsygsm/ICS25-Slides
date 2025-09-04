@@ -6,11 +6,14 @@ theme: academic
 # background: bg.jpg
 # some information about your slides (markdown enabled)
 title: "00-Introduction"
+highlighter: shiki
 info: |
   ICS 2025 Fall Slides
 # apply unocss classes to the current slide
+presenter: false
 class: text-center
 # https://sli.dev/features/drawing
+titleTemplate: '%s'
 drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
@@ -31,6 +34,12 @@ coverBackgroundUrl: cover.jpg
 # 欢迎来到 ICS 课程
 
 Taoyu Yang, EECS, PKU
+
+<style>
+  div{
+   @apply text-gray-2;
+  }
+</style>
 
 
 <!--
