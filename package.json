@@ -8,9 +8,11 @@
     "export": "slidev export"
   },
   "dependencies": {
+    "@iconify/json": "^2.2.246",
     "@slidev/cli": "^52.1.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
+    "slidev-theme-academic": "^2.1.0",
     "vue": "^3.5.18"
   }
 }
