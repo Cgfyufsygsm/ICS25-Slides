@@ -277,6 +277,7 @@ class: text-center
 ---
 layout: cover
 class: text-center
+coverBackgroundUrl: /00-Introduction/cover.jpg
 ---
 
 # Thank you for your listening!
@@ -284,3 +285,9 @@ class: text-center
 祝大家学有所成！
 
 Cat$^2$Fish❤
+
+<style>
+  div{
+   @apply text-gray-2;
+  }
+</style>
