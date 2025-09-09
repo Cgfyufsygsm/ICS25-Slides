@@ -99,7 +99,7 @@ transition: fade-out
 
 # 日程安排
 
-![schedule](/00-Introduction/schedule.png)
+<img src="/00-Introduction/schedule.png" alt="schedule" style="width: 75%; height: auto; margin: 0 auto;" />
 
 ---
 
@@ -145,29 +145,24 @@ transition: fade-out
 
 基本内容安排
 
-- ~~回课~~好像已经不用了？
+- 研讨题（取代以往回课）
 - Lab 讲解
   - 不专门安排同学讲 lab
-  - 从第四个 lab (Arch) 开始，如果小班里有同学的 lab 做得很好（暂定标准：排名前25），那么就由这位同学来讲那次的lab；*有 BONUS*
+  - 从第四个 lab (Arch) 开始，如果小班里有同学的 lab 做得很好（暂定标准：排名前25），那么就由这位同学来讲那次的lab；**有 BONUS**
 - 助教梳理重点 & 适度拓展 & 讨论问题
 - 做 / 讲习题
 
 
-<!-- ---
+---
 
-# 如何回课
+# 关于研讨题
 
-请大家认真对待
+新东西
 
-- 什么是好的回课
-  - 听课的同学可以跟上，且能有兴趣听下去 ~~不要开飞机也不要当 PPT reader，助教也会不想听~~
-  - 对复习有帮助，对整体知识的把握有帮助
-  - 对形式没有要求，用 ppt、板书、实机演示等都没问题
-- <p style="color: #FF0000; font-size: 30px">时间严格控制在 15 分钟以内</p>
-- 回课可以讲什么（仅供参考）
-  - 梳理知识框架、强调重点知识、讨论有趣的问题、讲一些往年题、……
-  - > 这个需要你自行衡量！
-- 具体的回课内容？暂 -->
+- 每次大班课（含专题讲座）会布置 2 道适合分析研讨的题目
+  - 每道题安排 2 名学生上台讲解（用PPT、板书或其他形式，由教师决定）；其他学生提问和参与讨论
+  - 教师和助教点评打分，计入小班评分
+- 剩余内容暂定
 
 ---
 
@@ -229,7 +224,7 @@ https://clab.pku.edu.cn/
 
 - **ICS 所有的 lab** 都最好在类 UNIX 环境下完成，Windows 环境大概率无法使用。
 - 如果你是 Linux 系统，你可以在本地完成 lab 的代码编写。
-- ~~如果你是 Mac 系统，你可能可以在本地完成部分 lab 的代码编写~~
+- 如果你是 Mac 系统，你可能可以在本地完成部分 lab 的代码编写
 - 如果你是 Windows 系统，**强烈建议配置一个 WSL (Windows Subsystem for Linux)**
   - 实际体验还是相当之香的
   - 可以参考[《北京大学计算机基础科学与开发手册》by 臧炫懿](https://github.com/ZangXuanyi/getting-started-handout) 中的第 8.1.4 节相关内容
@@ -269,13 +264,16 @@ https://clab.pku.edu.cn/
   - [AutoLab](https://autolab.pku.edu.cn/)：lab 的在线评测平台
   - [Clab](https://clab.pku.edu.cn/)：Linux 俱乐部搭建的云计算平台，可在上面完成 lab 的代码编写
   - 答疑平台？TODO
-  
+
+
 ---
 layout: center
 class: text-center
 ---
 
 # 配置环境/答疑时间
+
+CLAB 配置以及 Linux 基础命令使用示范
 
 ---
 layout: cover
