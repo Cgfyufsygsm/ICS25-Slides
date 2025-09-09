@@ -47,26 +47,25 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
-transition: fade-out
+layout: two-cols
 ---
 
-# 关于助教
+# 基本信息
 
-~~苦命科研人~~
+- 周三 10-11 节，【教室】
+- 班号【】
+- 小班老师：佟冬老师
+  - 计算机学院 副教授
+  - 研究所：系统结构研究所
+  - 研究领域：计算机体系结构
+- 小班助教：杨涛瑜
+  - 23 级 CS 专业本科生
+  - https://github.com/Cgfyufsygsm
+  - https://blog.imyangty.com/
 
-- 2023级计算机科学与技术专业本科生
+::right::
 
-<div class="my-10 grid grid-cols-[40px_1fr] w-min gap-y-4 items-center">
-  <ri:github-line class="opacity-50"/>
-  <div><a href="https://github.com/Cgfyufsygsm" target="_blank">Cgfyufsygsm</a></div>
-  <ri:blogger-line class="opacity-50"/>
-  <div><a href="https://blog.imyangty.com/" target="_blank">blog.imyangty.com</a></div>
-  <ri:mail-line class="opacity-50"/>
-  <div><a href="mailto:yangty1031@stu.pku.edu.cn">yangty1031@stu.pku.edu.cn</a></div>
-  <ri:wechat-2-line class="opacity-50"/>
-  <div>imyangty</div>
-</div>
-
+<img src="/00-Introduction/qr.jpg" alt="qr" style="width: auto; height: 65%; margin: 0 auto;" />
 
 ---
 
@@ -108,12 +107,11 @@ transition: fade-out
 给分方案
 
 - 阶段测验 2*10%、期末 35%
-- Lab 测验 10、lab 20
+- Lab 测验 10%、lab 20%
 - 小班 15%
   - BONUS 主要参考对大家的学习做出的贡献。
   - BONUS：lab 做得很好并在小班上讲解
   - 提出了十分有价值的问题或者解答了同学们（或者助教）的有价值的问题（公开）
-  - ~~回课质量十分优秀~~好像没有回课了
   - 正常情况下没有 PENALTY
   - PENALTY：**无故迟到超过 5 分钟 (0.5' each) 无故缺勤 (1' each)**
 - 大班评分 up to 5%（？）
@@ -150,19 +148,24 @@ transition: fade-out
   - 不专门安排同学讲 lab
   - 从第四个 lab (Arch) 开始，如果小班里有同学的 lab 做得很好（暂定标准：排名前25），那么就由这位同学来讲那次的lab；**有 BONUS**
 - 助教梳理重点 & 适度拓展 & 讨论问题
-- 做 / 讲习题
+- 做/讲习题
 
 
 ---
 
 # 关于研讨题
 
-新东西
+~~不用回课了哈哈哈~~
 
 - 每次大班课（含专题讲座）会布置 2 道适合分析研讨的题目
-  - 每道题安排 2 名学生上台讲解（用PPT、板书或其他形式，由教师决定）；其他学生提问和参与讨论
+  - 每道题安排 2 名同学上台讲解（用 PPT、板书或其他形式，自行决定）；其他同学提问和参与讨论
   - 教师和助教点评打分，计入小班评分
-- 剩余内容暂定
+- 按照**学号顺序**依次进行研讨
+  - 每次讲解的两位同学可以提前联系并共同进行准备
+  - 每次小班课将至少有 8 位同学上台分享 $(2 \times 2 \times 2)$
+  - > 同时也意味着每位同学最多两节课就会上台一次
+- **时间尽量控制在 10 分钟以内**（暂定，以实际情况为准）
+- 鼓励没有上台的同学积极参与研讨，视情况有 BONUS
 
 ---
 
