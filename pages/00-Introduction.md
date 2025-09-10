@@ -226,8 +226,7 @@ ICS 是 5 学分大课，不仅占分高，还是后续很多礼包课程的基�
 https://clab.pku.edu.cn/ 
 
 - **ICS 所有的 lab** 都最好在类 UNIX 环境下完成，Windows 环境大概率无法使用。
-- 如果你是 Linux 系统，你可以在本地完成 lab 的代码编写。
-- 如果你是 Mac 系统，你可能可以在本地完成部分 lab 的代码编写
+- 如果你是 Linux 或 Mac 系统，你可能可以在本地完成部分 lab 的代码编写
 - 如果你是 Windows 系统，**强烈建议配置一个 WSL (Windows Subsystem for Linux)**
   - 实际体验还是相当之香的
   - 可以参考[《北京大学计算机基础科学与开发手册》by 臧炫懿](https://github.com/ZangXuanyi/getting-started-handout) 中的第 8.1.4 节相关内容
@@ -247,8 +246,8 @@ https://clab.pku.edu.cn/
   - Git 也是大家以后学业/职业生涯中绕不开的重要工具，强烈建议大家掌握！
 - 课程节奏（个人体验）
   - 刚开始的几周（Chap 2，Chap 3）节奏稍慢
-  - 从 Chap 4 开始，节奏会变快，在期中考附近迎来一波小高潮。Chap 4 是全书最难的章节之一。
-  - 8 个 lab 的难度和任务量整体递增
+  - 从 Chap 4 开始，节奏会变快。Chap 4 是全书最难的章节之一。
+  - 8 个 lab 的难度和任务量**整体递增**
   - 大家及时调整，安排好自己的学习节奏，**但是 ICS 其实也没有那么可怕，只要调整好学习节奏，肯花时间，结果也不会很差**
   
 
@@ -256,7 +255,7 @@ https://clab.pku.edu.cn/
 
 # 大家可能需要的链接
 
-- [助教自己的 Github 仓库](https://github.com/Cgfyufsygsm/ICS24-Introduction-to-Computer-System-2024Fall-PKU)
+- [助教去年的 Github 仓库](https://github.com/Cgfyufsygsm/ICS24-Introduction-to-Computer-System-2024Fall-PKU)
   - 包含往年题、课件、2024 年的所有 lab 的 writeup 以及 handout（代码什么的自然是没有的）
   - 以及一些相当之有用的链接汇总
   - 大家可以 clone 到本地以供随时参阅
@@ -264,9 +263,9 @@ https://clab.pku.edu.cn/
   - 可以在助教部署的 Github Pages 上在线观看
   - 也可以根据仓库中的指引 clone 到本地部署后观看
 - 课程相关官方链接
-  - [AutoLab](https://autolab.pku.edu.cn/)：lab 的在线评测平台
+  - AutoLab：lab 的在线评测平台（需要等稍后具体通知）
   - [Clab](https://clab.pku.edu.cn/)：Linux 俱乐部搭建的云计算平台，可在上面完成 lab 的代码编写
-  - 答疑平台？TODO
+  - [答疑平台](https://ics.huh.moe/)：可以在上面进行提问和相互答疑
 
 
 ---
@@ -286,7 +285,7 @@ coverBackgroundUrl: /00-Introduction/cover.jpg
 
 # Thank you for your listening!
 
-祝大家学有所成！
+祝大家新学期一切顺利！
 
 Cat$^2$Fish❤
 

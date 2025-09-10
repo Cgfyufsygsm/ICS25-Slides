@@ -8,6 +8,8 @@
 
 ## 使用
 
+你需要首先安装 git 和 npm。
+
 ```bash
 git clone https://github.com/Cgfyufsygsm/ICS25-Slides.git
 cd ICS25-Slides
