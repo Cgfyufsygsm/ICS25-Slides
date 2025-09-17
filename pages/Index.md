@@ -69,7 +69,7 @@ transition: fade-out
 <div>
 
 0. [课程介绍](https://blog.imyangty.com/ICS25-Slides/00)
-1. [数据表示]()
+1. [数据表示](https://blog.imyangty.com/ICS25-Slides/01)
 2. [暂]()
 3. [时]()
 4. [不]()
