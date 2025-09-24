@@ -10,7 +10,7 @@ highlighter: shiki
 info: |
   ICS 2025 Fall Slides
 # apply unocss classes to the current slide
-presenter: false
+presenter: true
 class: text-center
 # https://sli.dev/features/drawing
 titleTemplate: '%s'
@@ -80,6 +80,10 @@ basic concepts
   
   是处理器可以直接执行的字节级别程序。通常以二进制形式表示，是计算机硬件可以理解和执行的最低级别的指令。
 
+<!--
+给大家展示一下这几个
+-->
+
 ---
 
 # 从 C 源代码到汇编代码
@@ -106,7 +110,8 @@ objdump -d hello > hello.asm
 - 使用 `objdump` 可以将二进制文件通过反汇编得到它的汇编代码文本（Bomblab 中会用到！必学！）
 
 <!--
-演示给学生看
+开个WSL
+分别演示给学生看，objdump也要演示
 -->
 
 ---
@@ -154,6 +159,10 @@ objdump -d bomb > bomb.asm
 </div>
 </div>
 
+<!--
+讲一下linux终端重定向I/O
+-->
+
 ---
 
 # 数据格式
@@ -187,10 +196,13 @@ data format
 
 Program Counter (PC)
 
-- 程序计数器（PC）是一个寄存器，用于存储将要执行的下一条指令在内存中的地址
+- 程序计数器（PC）是一个寄存器，用于存储将要执行的**下一条指令**在内存中的地址
 - 在 x86-64 中，程序计数器通常是 `%rip` 寄存器。
 - 每当执行一条指令时，程序计数器会根据指令的长度自动更新，指向下一条指令的地址。
 
+<!--
+强调是将要执行的下一条指令的地址
+-->
 
 ---
 layout: image-right
@@ -203,6 +215,10 @@ backgroundSize: 80%
 Registers
 
 **这个表要完整的记忆下来。**
+
+<!--
+后面开始依次分批介绍
+-->
 
 ---
 
@@ -241,6 +257,10 @@ Registers
 
   记忆：此处恢复正常，在 `[s/d]i` 后面直接加代表 low 的 `l` 后缀
 
+<!--
+强调一下没有 sl 和 dl
+-->
+
 ---
 
 # 寄存器
@@ -255,6 +275,10 @@ Registers
   - stack pointer 栈指针寄存器
 
   记忆：此处恢复正常，在 `[b/s]p` 后面直接加代表 low 的 `l` 后缀
+
+<!--
+也没有bl和sl
+-->
 
 ---
 
@@ -301,7 +325,10 @@ Registers
 </div>
 </div>
 
-<!-- 比如，你计算斐波那契数列，然后外层要打印，那么就需要存储原始值（但这个例子中，实际上是调用者保存寄存器） -->
+<!--
+在黑板上解释一下
+调用者寄存器，就是可能被覆盖的，需要自己保存好
+-->
 
 ---
 
@@ -353,19 +380,17 @@ storage
 operand indicator
 
 操作数主要各式如下图。注意：
-- 基址和变址寄存器必须是 64 位寄存器 <span class="text-sm text-gray-5">（记忆：64 位系统）</span> → `(%eax)` 不合法
+- 在 x86-64 中，基址和变址寄存器必须是 64 位寄存器 <span class="text-sm text-gray-5">（记忆：64 位系统）</span> → `(%eax)` 不合法
 - 比例因子必须是 1、2、4、8 <span class="text-sm text-gray-5">（记忆：二进制）</span> → `(,%rax,3)` 不合法
 
 
 ![operand](/02-Machine-Prog/operand.png){.h-70.mx-auto}
 
-
-<!-- 
-
-只要带了小括号的，都是指的访问内存
-为什么必须是 1，2，4，8？因为这是二进制！
-
- -->
+<!--
+只要带了小括号的，都是指的访问内存；
+为什么必须是 1，2，4，8？因为这是二进制！；
+注意！立即数必须带上 \$，不带的话是认为内存地址的绝对值。比例变址寻址必须逗号要全。
+-->
 
 ---
 
@@ -385,16 +410,16 @@ operand indicator
 
 </div>
 
-- `mov` 指令的两个操作不能都是（猜猜为什么），<span class="text-gray-5 text-sm">D 表示 destination / 目的地，S 表示 source / 源。</span>
+- <span class="text-gray-5 text-sm">D 表示 destination / 目的地，S 表示 source / 源。</span>二者不能同时为内存
 - 寄存器大小必须和指令后缀匹配。
 - \*{.text-sky-5} `movl` 指令以寄存器为目的时，会将高位 4 字节清零。
 - `movq` 只能处理 32 位立即数的源操作数，如果需要处理 64 位立即数只能使用 `movabsq`（想想为什么？）
 
-<!-- 
+<!--
 不要搞反表达式
 记住 source 和 destination
 movq 指令编码的时候
- -->
+-->
 
 ---
 
@@ -468,14 +493,17 @@ table th, table td {
 
 | x86-64 汇编            | 错误原因               |
 | ---------------------- | ---------------------- |
-| `movb $0xF, (%ebx)`    | <div v-click> 基址寄存器应为 64 位  </div> |
-| `movl %rax, (%rsp)`    | <div v-click> 应为 `movq` </div> |
-| `movw (%rax), 4(%rsp)` | <div v-click> mov 类不能 M -> M </div> |
-| `movb %al, %sl`        | <div v-click> 没有 `%sl` </div> |
-| `movq %rax, $0x123`    | <div v-click> 反了 </div> |
-| `movl %eax, %rdx`      | <div v-click> `movl` 和 `%rdx` 矛盾 </div> |
-| `movb %si, 8(%rbp)`    | <div v-click> `movb` 应对应 `%sil` </div> |
+| `movb $0xF, (%ebx)`    | |
+| `movl %rax, (%rsp)`    | |
+| `movw (%rax), 4(%rsp)` | |
+| `movb %al, %sl`        | |
+| `movq %rax, $0x123`    | |
+| `movl %eax, %rdx`      | |
+| `movb %si, 8(%rbp)`    | |
 
+<!--
+1. rbx;  2. movl;  3. M->M (铺垫一下 arch）; 4. 没有sl; 5. 反了; 6. movl和%rdx;  7.movb和%si
+-->
 
 ---
 layout: image-right
@@ -517,11 +545,10 @@ stack
 
 回忆一下，第 1~6 个参数分别使用那些寄存器传递？
 
-<div v-click>
 
-`%rdi`，`%rsi`，`%rdx`，`%rcx`，`%r8`，`%r9`
-
-</div>
+<!--
+brk 是调整堆顶指针的函数
+-->
 
 ---
 
@@ -534,7 +561,18 @@ stack data operation
 | `pushq S`     | `R[%rsp] ← R[%rsp] - 8; M[R[%rsp]] ← S`   | 压入四字（quad）数据 |
 | `popq D`      | `D ← M[R[%rsp]]; R[%rsp] ← R[%rsp] + 8`   | 弹出四字（quad）数据 |
 
-注意顺序！会考！尤其是一些奇怪的题目甚至会考 `popq %rsp` 这种不知所云的东西。
+注意顺序！（其实这个顺序也很好理解，`stk[++top] = a` 和 `a = stk[top--]` 罢了）
+
+但是需要注意的是，**对于操作数是 `%rsp` 的时候**，问题就不是那么简单了。
+
+思考一下 `pushq %rsp` 和 `popq %rsp` 的时候会发生什么（虽然这个确实很不知所云，但书上确实有，且可能会考！）
+
+可以参考课本 p255-256 练习题 4.7 和 4.8
+
+<!--
+pushq %rsp 压的是 %rsp 的旧值；
+popq %rsp 是将栈指针设置为栈顶读出来的值
+-->
 
 ---
 
@@ -556,6 +594,9 @@ structure of the stack
 
 注意参数的压栈顺序、被调用者保存的寄存器。
 
+<!--
+callee的argument和返回地址是放在caller的栈帧的
+-->
 
 ---
 
@@ -644,6 +685,10 @@ shift operation
 
 左移（`SAL` / `SHL`）是等价的，但是右移会区分算术右移（`SAR`，前补符号位）和逻辑右移（`SHR`，前补 0）。
 
+<!--
+SHift Right, Shift Arithmetic Right
+-->
+
 ---
 
 # 特殊算数操作
@@ -657,16 +702,17 @@ special arithmetic operations
 | `imulq S`| `R[%rdx]:R[%rax] ← S × R[%rax]`               | 有符号全乘法          |
 | `mulq S` | `R[%rdx]:R[%rax] ← S × R[%rax]`                | 无符号全乘法          |
 | `cqto`   | `R[%rdx]:R[%rax] ← SignExtend(R[%rax])`       | 转换为八字节          |
-| `idivq S`| `R[%rdx] ← R[%rax] mod S; R[%rax] ← R[%rdx] ÷ S` | 有符号除法            |
-| `divq S` | `R[%rdx] ← R[%rax] mod S; R[%rax] ← R[%rdx] ÷ S` | 无符号除法            |
+| `idivq S`| `R[%rdx] ← R[%rdx]:R[%rax] mod S; R[%rax] ← R[%rdx]:R[%rax] ÷ S` | 有符号除法            |
+| `divq S` | `R[%rdx] ← R[%rdx]:R[%rax] mod S; R[%rax] ← R[%rdx]:R[%rax] ÷ S` | 无符号除法            |
 
 </div>
 
 
 一般这里只考搭配的是 `%rax` 和 `%rdx` 两个寄存器，且后者在乘法里是高位。`%rax` 在除法里用于存商（因为 `%rax` 一般用于返回结果，可以这么记）
+
 ---
 
-# 标志位
+# 条件码
 
 condition code / flags
 
@@ -677,19 +723,49 @@ condition code / flags
 - CF（Carry Flag）：当两个 unsigned 类型的数作运算因 **进位/借位**{.text-sky-5} 而发生溢出时置为 1，否则置为 0
 - OF（Overflow Flag）：当两个 signed 类型的数做运算而发生符号位溢出时置为 1，否则置为 0
 
-### 注意区分 “进位” 和 “溢出”{.mt-10.mb-6}
+---
 
--   有 “溢出” 时，不一定有 “进位”，对应 **有符号数** 的相同符号大整数因为表示范围上限限制加超了 / 下限限制减超了，在阿贝尔群下 “轮回” 了，相差一个 $2^N$
--   有 “进位” 时，不一定有 “溢出”，对应 **无符号数** 的大整数因为表示范围上限限制加超了，相差一个 $2^N$
+# 进位和溢出的区分
+
+CF and OF
+
+- 对二进制加法（含用二补码表示的有符号加法）：
+  - CF = 最高位之后产生的进位（carry-out of MSB）。
+  - OF = “进位进入最高位” XOR “进位从最高位溢出”（carry_into_MSB ⊕ carry_out_of_MSB）。
+等价的直观判定：如果两个被加数 符号位相同，且和的符号与它们不同，则 OF = 1。
+
+- 对减法（`x − y`，可看作 `x + (~y + 1)`）：
+  - CF = 1 表示发生了借位（等价于 unsigned 下 x < y）。
+  - OF 的判定也可用符号法：如果被减数和减数 符号不同，且结果的符号与被减数不同，则 OF = 1。
 
 ---
 
-# 标志位
+# CF 和 OF：小练习
+
+Exercise
+
+下面考虑 8 位整数。
+
+1. `0x7F + 0x01`
+
+2. `0xFF + 0x01`
+   
+3. `0x00 - 0x01`
+
+4. `0x80 - 0x01`
+
+
+<!--
+第一个 01，第二个 10，第三个10，第四个 01
+-->
+
+---
+
+# 条件码
 
 condition code / flags
 
 设置条件码的细节：
-- 如果无符号数减法发生了借位，也会设置 `CF` 为 1
 - `leaq` 指令不改变任何条件码
 - 逻辑操作（`AND`、`OR`、`XOR`、`NOT`）会把 `CF` 和 `OF` 设置成 0
 - 移位操作会把 `CF` 设置为最后一个被移出的位，`OF` 设置为 0
@@ -742,7 +818,11 @@ condition code / flags
 
 需要注意的是，`setX` 只会将最低的 1 个 Byte 置为相应的值，其他 Byte 保持不变！
 
-Q：如果想要设置全部 8 Byte，该使用什么指令？ <span v-click>A：`movzbl` / `movzbq`</span>
+Q：如果想要设置全部 8 Byte，该使用什么指令？
+
+<!--
+movzbl movzbq
+-->
 
 ---
 
@@ -758,6 +838,10 @@ Q：如果想要设置全部 8 Byte，该使用什么指令？ <span v-click>A�
 | `setle D` | `D ← (SF^OF)\|ZF`  | 小于或等于（有符号）    |
 | `seta D`  | `D ← ~CF&~ZF`      | 大于（无符号）          |
 | `setb D`  | `D ← CF`           | 小于（无符号）          |
+
+<!--
+只需要记住一个，剩下的都可以推
+-->
 
 ---
 
@@ -896,9 +980,13 @@ encoding of PC-relative jumping instruction
 
 `~0xF0 = 0x0F, 0x0F + 1 = 0x10`
 
-`400022 - 0x10 = 400012`
+`0x400022 - 0x10 = 0x400012`
 
 </div>
+
+<!--
+-x = ~x + 1, ~0xF0+1 = 0x10, 400022-0x10 = 400012
+-->
 
 ---
 
@@ -1091,15 +1179,6 @@ long f4(long a, long b) {
 </div>
 
 你可以使用 [在线编译器](https://godbolt.org/) 来验证！（注意别在你的 ARM 设备上试，会不一样）
-
-<div v-click text="sm">
-
-- `f1` 由于比较前计算出的 `a` 与 `b` 就是条件传送的目标，因此会被编译成条件传送；
-- `f2` 由于比较结果会导致 `a` 与 `b` 指向的元素发生不同的改变，因此会被编译成条件跳转，或者直接因为使用了指针排除掉；
-- `f3` 由于指针 `a` 可能无效，因此会被编译为条件跳转；
-- `f4` 会被编译成条件传送，注意到 `a` 和 `b` 都是局部变量，return 的时候对 `a` 和 `b` 的操作都是没有用的。
-
-</div>
 
 ---
 
@@ -1350,60 +1429,19 @@ quiz
 - C. 设 `m, n` 是 `char*` 类型的指针，则下面三条语句 `*n = *m^*n; *m = *m^*n; *n = *m^*n;` 可以交换 `*m` 和 `*n` 的值
 - D. 已知 `a, b` 是整型，且 `a+b+1==0` 为真，则 `a^b+1==0` 为真
 
-<div v-click>
-
-A. 正确，考虑每个 bit 的最终结果只和 `x, y, z` 的对应 bit 有多少个 0、多少个 1 有关，而和异或顺序无关
-
-B. 正确，非 `~ A = A ^ 1`；或 `A | B = (A ^ 1) & (B ^ 1) ^ 1`，即 `A | B = ~ (~ A & ~ B)`
-
-C. 错误，因为 `m` 和 `n` 可能指向同一个地址，所以第一句话直接置零了。但对于其他情况，是对的。
-
-D. 正确，这个非常离谱，下一页 PPT 单独讲。
-
-</div>
-
----
-
-# 小测试
-
-quiz
-
-- D. 已知 `a, b` 是整型，且 `a+b+1==0` 为真，则 `a^b+1==0` 为真
-
-第一层理解：前面等价于 `a+b == -1`，后面等价于 `a^b == -1`，利用 `a = -b - 1 = ~b + 1 -1 = ~b` 可推知（对于 `b` 是 $T_{min}$ 的情况要特判，此时 `a` 是 $T_{max}$，也满足）
-
-第二层理解：注意到右式中没加括号，存在运算优先级问题，查 [优先级表](https://c-cpp.com/c/language/operator_precedence) 发现，计算优先级 `+` > `==` > `^`，直接推得右式是错的。
-
-第三层理解：在第二层理解上再次思考，考虑了优先级后，何时 `a^((b+1)==0)` 为假？
-
-此时，我们有 `a = 1 | a = 0`，且 `a + b = -1`
-
-<div grid="~ cols-2 gap-12">
-<div>
-
-`a = 1`，则 `b = -2`，那么 `a^((b+1)==0) = a^(-1==0) = a^0 = 1`，为真。
-
-</div>
-
-<div>
-
-`a = 0`，则 `b = -1`，那么 `a^((b+1)==0) = a^(0==0) = a^1 = 1`，为真。
-
-</div>
-</div>
-
-所以，此选项仍然正确。
-
 ---
 
 # 思考题
 
 Machine Prog: Basics
 
-1. 一份 C 语言写成的代码，在 x86-64 架构的处理器上的 Ubuntu 系统中编译成可执行文件，需要经过哪些步骤？（超纲了，在第七章讲）
-2. 为什么在寄存器上读、写数据时不需要再考虑大端法和小端法的区别？
-3. 为什么 `movg` 指令的 `S (scale)` 参数总是 1，2，4 或者 8？
-4. <span text="gray-5">*</span> 为什么 1 中编译的可执行文件无法在同一处理器上的 Windows 系统上执行？分歧主要发生在哪一步骤中？
+
+1. 为什么在寄存器上读、写数据时不需要再考虑大端法和小端法的区别？
+1. 为什么内存寻址的 `S (scale)` 参数总是 1，2，4 或者 8？
+
+<!--
+S 只需要占两个比特位，1，2，4，8对应 byte, word, dword, qword，方便数组寻址。对于任意缩放倍率，不实用，复杂性高。
+-->
 
 ---
 
@@ -1413,10 +1451,12 @@ Machine Prog: Control
 
 1. 如何对一个寄存器较高的字节赋值，同时不改变较低的字节？
 2. 为什么不建议使用条件赋值？
-3. C 语言中三种循环形式(`for`，`while`，`do-while`)，理论上哪种效率更高？
+3. C 语言中三种循环形式 (`for`，`while`，`do-while`)，理论上哪种效率更高？
 4. 为什么 C 语言中的 `switch` 语句需要在每个分支后 `break` 才能退出？
 
-
+<!--
+有一些专门针对寄存器高位的，不展开。或者可以使用掩码，利用你在datalab的知识。三种循环编译后都一样的，不存在效率差别。switch-case语句的 fall-through语义，看编译的结果就能看出来。
+-->
 
 ---
 
