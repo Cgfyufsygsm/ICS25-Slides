@@ -70,22 +70,21 @@ transition: fade-out
 
 0. [课程介绍](https://blog.imyangty.com/ICS25-Slides/00)
 1. [数据表示](https://blog.imyangty.com/ICS25-Slides/01)
-2. [暂]()
-3. [时]()
-4. [不]()
-5. [能]()
-6. [给]()
+2. [机器语言](https://blog.imyangty.com/ICS25-Slides/02)
+3. [处理器体系结构 1](https://blog.imyangty.com/ICS25-Slides/03)
+4. [处理器体系结构 2 + 存储器层次结构]()
+5. [高速缓存 + 程序性能优化]()
 
 </div>
 
 <div>
 
-7. [你]()
-8. [明]()
-9. [确]()
-10. [的]()
-11. [答]()
-12. [复]()
+6. [链接 + ECF]()
+7. [系统级 I/O + VM 1]()
+7. [VM 2]()
+8. [网络]()
+9. [并发 1]()
+10. [并发 2]()
 
 </div>
 
