@@ -48,6 +48,12 @@ class: text-center
 
 # 研讨题分享
 
+<!--
+强调一下 attacklab 和 archlab
+
+archlab 让学 PIPE 的时候写 part B，专注去尝试搞懂几种 hazard 对应的 bubble 和 stall。以及用 git 做好版本控制。
+-->
+
 ---
 
 # 什么是 ISA？
@@ -132,6 +138,11 @@ image: /03-Arch1/Y86-Instruction.png
 
 </div>
 
+<!--
+指令集
+
+这一页讲指令的格式，icode:ifun，寄存器，0xF。
+-->
 
 ---
 layout: image-right
@@ -177,6 +188,17 @@ image: /03-Arch1/Y86-Instruction.png
 </div>
 </div>
 
+<!--
+这一页会挨个过一遍所有指令
+
+V：立即数，irmovq
+
+D：偏移量，D(rB)
+
+Dest：目标地址，jxx和call
+
+注意这些东西都是 64 位的
+-->
 
 ---
 layout: image-right
@@ -209,6 +231,9 @@ Register
 - 一共只有 15 个寄存器，`0xF` 表示空。
 - 用 4 个二进制位来标识
 
+<!--
+这一页介绍所有的寄存器
+-->
 
 ---
 
@@ -368,11 +393,14 @@ Complex Instruction Set Computer & Reduced Instruction Set Computer
 
 <!--
 栈密集：用栈存取过程参数和返回地址。
+
+
 抽学生分析 Y86 有什么 CISC 特性和 RISC 特性。
+
 CISC：条件码，变长指令，用栈保存返回地址
+
 RISC：寄存器传递过程参数，load/store来操作内存
 -->
-
 
 ---
 
@@ -385,7 +413,7 @@ status
 | 值 | 名字 | 含义 | 全称 |
 |----|------|------|------|
 | 1  | `AOK`  | 正常操作 | All OK |
-| 2  | `HLT`  | 遇到器执行`halt`指令遇到非法地址 | Halt |
+| 2  | `HLT`  | 遇到 `halt` 指令 | Halt |
 | 3  | `ADR`  | 遇到非法地址，如向非法地址读/写 | Address Error |
 | 4  | `INS`  | 遇到非法指令，如遇到一个 `ff` | Invalid Instruction |
 
@@ -456,7 +484,7 @@ Fn是0，第二个寄存器是F
 终止指令
 - 停止执行
 - 停止模拟器
-- 在遇到初始化为 0 的内存地址时，也会终止
+- 在 x86-64 中，用户不允许使用这个指令
 
 <br/>
 
@@ -484,10 +512,13 @@ Y86-64 Assembly
 - 其余与 x86-64 很像。
 - Y86-64 模拟器推荐：https://boginw.github.io/js-y86-64/
 
+<!--
+可以演示一下
+-->
 
 ---
 
-# 逻辑设计和硬件控制语言 HCL
+# 硬件的组成
 
 hardware control language
 
@@ -496,6 +527,33 @@ hardware control language
 * HCL 是 HDL 的子集
 
 <br>
+
+- **组合逻辑电路：输出与输入（几乎）同步，没有存储功能（无状态）**
+  - 逻辑门：基本的运算单元
+  - 组合电路：（位级/字级/ALU）
+- **存储器：按位存储（有状态）**
+  - 时钟寄存器
+  - 随机访问存储器（RAM）
+    - 虚拟内存
+    - 寄存器文件（这个是什么后面会具体辨析）
+
+<!--
+在这门课里我们只关心控制，不关心硬件单元的具体实现。
+
+写出合法的 HCL 就意味着可以设计出对应的电路
+
+三种基本逻辑门如上。
+-->
+
+---
+
+# 逻辑门
+
+logical gate 
+
+- 高低电压对应 1/0
+- 输入与输出几乎同步（会有微小延迟）
+- 单个逻辑门**没有存储功能**
 
 <div grid="~ cols-3 gap-4"  mt-2>
 
@@ -539,6 +597,71 @@ out = !a
 
 记忆：方形的更严格→与；圆形的更宽松→或
 
+<!--
+C语言中这几种逻辑门长这样
+
+事实上最基本的逻辑门并不是他们
+
+大家如果玩过 Turing Complete 会发现 NAND 和 NOT 可以组合成剩下所有逻辑门
+-->
+
+
+---
+
+# HCL 代码
+
+hardware description/control language
+
+HCL 语法包括两种表达式类型：**布尔表达式**（单个位的信息）和**整数表达式**（多个位的信息），分别用 `bool-expr` 和 `int-expr` 表示。
+
+<div grid="~ cols-2 gap-12">
+<div>
+
+#### 布尔表达式
+
+逻辑操作
+
+`a && b`，`a || b`，`!a`（与、或、非）
+
+字符比较
+
+`A == B`，`A != B`，`A < B`，`A <= B`，`A >= B`，`A > B`
+
+集合成员资格
+
+`A in { B, C, D }`
+
+等同于 `A == B || A == C || A == D`
+
+</div>
+
+<div>
+
+#### 字符表达式
+
+case 表达式
+
+```hcl
+[
+  bool-expr1 : int-expr1
+  bool-expr2 : int-expr2
+  ...
+  bool-exprk : int-exprk
+]
+```
+
+- `bool-expr_i` 决定是否选择该 case。
+- `int-expr_i` 为该 case 的值。
+
+<div text-sky-5>
+
+依次评估测试表达式，返回第一个成功测试的字符表达式 `A`，`B`，`C`
+
+</div>
+
+</div>
+</div>
+
 
 
 ---
@@ -558,7 +681,7 @@ bool eq = (a && b) || (!a && !b);
 ![bit_eq](/03-Arch1/bit_eq.png){.h-50.mx-auto}
 
 - 组合电路是 `响应式` 的：在输入改变时，输出经过一个很短的时间会立即改变
-- 没有短路求值特性：`a && b` 不会在 `a` 为 `false` 时就不计算 `b`
+- **没有短路求值特性**：`a && b` 不会在 `a` 为 `false` 时就不计算 `b`
 
 </div>
 
@@ -576,6 +699,9 @@ bool out = (s && a) || (!s && b);
 
 </div>
 
+<!--
+位级别的 eq 和 mux
+-->
 
 ---
 
@@ -601,7 +727,7 @@ bool Eq = (A == B)
 <div>
 
 ```c
-int Out = [
+word Out = [
   s : A; # select: expr
   1 : B;
 ];
@@ -613,6 +739,24 @@ int Out = [
 </div>
 </div>
 
+<!--
+字级别的，无非就是几个拼起来了而已。
+
+在 HCL 中，字大小的一般用大写字母
+
+不区分字长，这页的图中是 64 位
+
+可以再试试MUX4：
+
+word Out4 = [
+ !s1 && !s0 : A; # 00
+ !s1             : B; # 01
+ !s0             : C; # 10
+  1               : D; # 00
+]
+
+可以简化
+-->
 
 ---
 
@@ -625,7 +769,7 @@ Arithmetic Logic Unit
 
 <div>
 
-- 组合逻辑
+- **组合逻辑**
 - 持续响应输入
 - 控制信号选择计算的功能
 </div>
@@ -637,7 +781,7 @@ Arithmetic Logic Unit
 </div>
 </div> 
 
-大家可以想想这几个 ALU 可以怎么用逻辑门实现，其实并不难~
+大家可以想想这几个 ALU 可以怎么用逻辑门实现，其实并不难~（当然这门课不要求掌握）
 
 ---
 
@@ -649,7 +793,10 @@ Arithmetic Logic Unit
 
 时序电路：有 **状态** ，并基于此进行计算
 
+状态的改变受**周期性的时钟信号控制**
 
+- 时钟信号的产生：晶体谐振器（石英晶体的压电效应）
+- 时钟信号为整个计算机系统提供了时序信息
 
 ---
 
@@ -678,6 +825,17 @@ register
 </div>
 
 在 Clock 信号的上升沿，寄存器将输入的值采样并加载到输出端，其他时间输出端保持不变
+
+---
+
+# 时钟寄存器 / 寄存器 / 硬件寄存器
+
+register
+
+PC，CC 和 Stat 都使用时钟寄存器存储
+
+- 相当于每接收到一次时钟信号这些状态就会被更新
+- 时钟周期/频率决定了计算机系统的“运转节奏”
 
 ---
 
@@ -713,6 +871,18 @@ memory
 
 </div>
 </div>
+
+<!--
+register file 也可以叫做寄存器堆
+
+这一页慢一点，重点讲一下这个东西和时钟寄存器的区别。
+
+读数据时可以把寄存器堆当作组合逻辑
+
+但是写的时候，受时钟控制
+
+虚拟内存系统同理
+-->
 
 ---
 
@@ -1055,62 +1225,64 @@ sequential implementation
 call 和 ret 与 pushq 和 popq 都很像，只有 PC 更新的时候不一样
 -->
 
+
 ---
 
-# HCL 代码
+# SEQ 的时序
 
-hardware description/control language
+有点难理解
 
-HCL 语法包括两种表达式类型：**布尔表达式**（单个位的信息）和**整数表达式**（多个位的信息），分别用 `bool-expr` 和 `int-expr` 表示。
+- 之前我们对于指令的描述是从上往下执行的程序符号
+- 但是在实际硬件结构中根本完全不同，一个时钟变化会引发一个景观组合逻辑的流来执行指令
+- 事实上，所有的状态更新**同时发生**，且只在时钟上升开始下一周期时。
+- **原则：从不回读**：处理器从来不需要为了完成一条指令的执行而去读由该指令更新了的状态
+  - 状态在存储器里：PC，条件码，数据内存，寄存器堆
+  - 状态的更新发生在**指令结束时**
+  - 处理器无法在执行当前指令的过程中提前读到更新后的状态
+  
+---
 
-<div grid="~ cols-2 gap-12">
-<div>
+# 理解 SEQ 的时序
 
-#### 布尔表达式
+![](/03-Arch1/seq_time_1.png)
 
-逻辑操作
+<!--
+所有状态单元保持 irmovq 指令更新过的状态
+-->
 
-`a && b`，`a || b`，`!a`（与、或、非）
+---
 
-字符比较
+# 理解 SEQ 的时序
 
-`A == B`，`A != B`，`A < B`，`A <= B`，`A >= B`，`A > B`
+![](/03-Arch1/seq_time_2.png)
 
-集合成员资格
+<!--
+组合逻辑完成了一系列操作，CC，%rbx，PC 的新值被生成。此时组合逻辑是已经被更新的了，但是状态还没有被更新。
+-->
 
-`A in { B, C, D }`
+---
 
-等同于 `A == B || A == C || A == D`
+# 理解 SEQ 的时序
 
-</div>
+![](/03-Arch1/seq_time_3.png)
 
-<div>
+<!--
+时钟上升后，更新 PC，寄存器文件和CC寄存器。但组合逻辑还没对这些变化响应
+-->
 
-#### 字符表达式
+---
 
-case 表达式
+# 理解 SEQ 的时序
 
-```hcl
-[
-  bool-expr1 : int-expr1
-  bool-expr2 : int-expr2
-  ...
-  bool-exprk : int-exprk
-]
-```
+![](/03-Arch1/seq_time_4.png)
 
-- `bool-expr_i` 决定是否选择该 case。
-- `int-expr_i` 为该 case 的值。
+这样，值沿着组合逻辑传播，状态在时钟上升时更新
 
-<div text-sky-5>
+<!--
+第四周期结尾，组合逻辑反应过来了，算了一个新的PC，因为没有要跳转所以其他什么都没干，但状态还是旧的，没更新过
 
-依次评估测试表达式，返回第一个成功测试的字符表达式 `A`，`B`，`C`
-
-</div>
-
-</div>
-</div>
-
+在这一页再次强调一下从不回读的意思，更新后的状态是没有办法访问的
+-->
 
 ---
 
@@ -1163,9 +1335,9 @@ bool need_valC = icode in {
 
 ---
 
-# 顺序实现 - 译码阶段
+# 顺序实现 - 译码/写回阶段
 
-sequential implementation: decode stage
+sequential implementation: decode/write back stage
 
 <div grid="~ cols-2 gap-12">
 <div>
@@ -1332,6 +1504,7 @@ word new_pc = [
 </div>
 
 <button @click="$nav.go(26)">🔙</button>
+
 
 ---
 
