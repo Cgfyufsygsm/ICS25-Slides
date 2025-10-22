@@ -291,7 +291,7 @@ translate assembly code to machine code
 </div>
 <div>
 
-<kbd>40</kbd> <kbd>1</kbd><kbd>3</kbd> <kbd>ff ff ff fd</kbd>
+<kbd>40</kbd> <kbd>1</kbd><kbd>3</kbd> <kbd>ff ff ff ff ff ff ff fd</kbd>
 
 </div>
 </div>
@@ -302,8 +302,6 @@ translate assembly code to machine code
   @apply hidden;
 }
 </style>
-
-
 
 <!--
 地址、立即数都是小端法
@@ -365,7 +363,7 @@ Complex Instruction Set Computer & Reduced Instruction Set Computer
 - 寻址方式简单
 - 只能对寄存器操作数运算
 - 没有条件码
-- 栈密集的过程链接
+- 寄存器密集的过程链接
 
 代表：ARM, MIPS, RISC-V
 
@@ -380,7 +378,7 @@ Complex Instruction Set Computer & Reduced Instruction Set Computer
 - 寻址方式多样：`Imm(%base, %index, scale)`
 - 可以对内存操作数运算
 - 有条件码
-- 寄存器密集的过程链接
+- 栈密集的过程链接
 
 代表：IA32, x86-64
 
@@ -1233,13 +1231,13 @@ call 和 ret 与 pushq 和 popq 都很像，只有 PC 更新的时候不一样
 有点难理解
 
 - 之前我们对于指令的描述是从上往下执行的程序符号
-- 但是在实际硬件结构中根本完全不同，一个时钟变化会引发一个景观组合逻辑的流来执行指令
+- 但是在实际硬件结构中根本完全不同，一个时钟变化会引发一个组合逻辑的流来执行指令
 - 事实上，所有的状态更新**同时发生**，且只在时钟上升开始下一周期时。
 - **原则：从不回读**：处理器从来不需要为了完成一条指令的执行而去读由该指令更新了的状态
   - 状态在存储器里：PC，条件码，数据内存，寄存器堆
   - 状态的更新发生在**指令结束时**
   - 处理器无法在执行当前指令的过程中提前读到更新后的状态
-  
+
 ---
 
 # 理解 SEQ 的时序
@@ -1526,7 +1524,7 @@ sequential implementation: summary
 ### 答案：
 
 1. `call`
-2. `rmmovq` `pushq` `popq` `retq` （`mrmovq` 需要吗？不！）
+2. `rmmovq` `pushq` `popq`（`mrmovq` 需要吗？不！）
 
 </div>
 
