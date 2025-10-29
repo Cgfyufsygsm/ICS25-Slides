@@ -72,7 +72,7 @@ transition: fade-out
 1. [数据表示](https://blog.imyangty.com/ICS25-Slides/01)
 2. [机器语言](https://blog.imyangty.com/ICS25-Slides/02)
 3. [处理器体系结构 1](https://blog.imyangty.com/ICS25-Slides/03)
-4. [处理器体系结构 2 + 存储器层次结构]()
+4. [处理器体系结构 2 + 存储器层次结构](https://blog.imyangty.com/ICS25-Slides/04)
 5. [高速缓存 + 程序性能优化]()
 
 </div>
