@@ -188,6 +188,15 @@ A~H 为8个基本逻辑单元，下图中标出了每个单元的延迟，以及
 
 </div>
 
+<!--
+40+60+40+30+10=180ps
+
+插在BC、FG之间。1000/110=9.09GIPS
+
+
+插在AB、AF、EF、BC、FG 之间。1000/(40+30+10)=12.5GIPS
+-->
+
 ---
 
 # SEQ 与 SEQ+
@@ -689,7 +698,7 @@ differences between structures
 
 - 在 PIPE- 的基础上，完善了转发逻辑，可以转发更多的计算结果（小写开头的，而不是只有大写开头的流水线寄存器）
 - 增加了转发逻辑
-- 转发源：`M_valA` `W_valW` `W_valE`（流水线寄存器们）、`e_valE` `m_valM`（中间计算结果们）
+- 转发源：`e_valE` `m_valM`（中间计算结果们）
 - 转发目的地：`d_valA` `d_valB` 
 - <button @click="$nav.go(24)">💡 结构差异图</button> 
 
@@ -1053,6 +1062,8 @@ word d_valA = [
   1 : d_rvalA; # 使用从寄存器文件读取的值，r 代表 read
 ];
 ```
+
+为什么是 `e_dstE` 而不是 `E_dstE`，是因为 `cmov` 指令要在 E 阶段才知道是否要写。
 
 </div>
 
@@ -1560,13 +1571,12 @@ bool D_bubble =
 
 tips
 
-- `branch_mispred`：F 暂停，D 气泡，E 气泡
+- `branch_mispred`：D 气泡，E 气泡
 - `load_use_hazard`：F 暂停，D 暂停，E 气泡
 - `ret_hazard`：F 暂停，D 气泡
 - 组合情况直接列表出来现推即可，有且仅有 load_use + RET 和 branch_mispred + RET 两种组合
   - 可以想想为什么剩余组合不存在
 - F 不会气泡，E 不会暂停
-
 
 ---
 
@@ -1977,6 +1987,7 @@ SSD Read/Write Characteristics
 
 
 ![ssd](/04-Arch2-Hierarchy/ssd.png){.h-60.mx-auto}
+
 ---
 
 # 局部性
@@ -2045,6 +2056,41 @@ Questions
 - C. 0.03 ms
 - D. 0.04ms
 
+<div v-click>
+
+答案：A
+
+<div class="text-sm">
+
+$$
+\text{平均传送时间} = \frac{60 \, \text{秒}}{\text{每分钟的旋转次数}}(\text{多少秒转一次}) \times \frac{1}{\text{每条磁道上的扇区数}}(\text{每个扇区平分}) \times 1000 \, \text{毫秒/秒}
+$$
+
+</div>
+
+解析：
+
+$$
+\frac{60 \, \text{秒}}{7200 \, \text{RPM}} \times \frac{1}{400 \, \text{sectors/track}} \times 1000 \, \text{ms/sec} \approx 0.02 \, \text{ms}
+$$
+
+</div>
+
+<!--
+答案：A
+
+
+$$
+\text{平均传送时间} = \frac{60 \, \text{秒}}{\text{每分钟的旋转次数}}(\text{多少秒转一次}) \times \frac{1}{\text{每条磁道上的扇区数}}(\text{每个扇区平分}) \times 1000 \, \text{毫秒/秒}
+$$
+
+
+解析：
+
+$$
+\frac{60 \, \text{秒}}{7200 \, \text{RPM}} \times \frac{1}{400 \, \text{sectors/track}} \times 1000 \, \text{ms/sec} \approx 0.02 \, \text{ms}
+$$
+-->
 
 ---
 
@@ -2064,6 +2110,25 @@ Questions
 
 </div>
 
+<div v-click>
+
+答案：B
+
+- A. 选项中 SRAM 和 DRAM 位置反了
+- C. 选项中，硬盘容量 1GB=$10^9$ Byte，因此容量应该为 8.192GB（回忆：内存及以上存储器使用 2 的幂次，硬盘使用 10 的幂次）
+- D. 选项中，平均旋转延迟为 $0.5\times(60\text{s}/6000\text{RPM})=5\text{ms}$，平均访问时间为 $9\text{ms} + 5\text{ms} = 14\text{ms}$
+- E. SDRAM 和 SRAM 无关，其 S 是 Synchronous 的缩写，表示同步的意思
+
+</div>
+
+<!--
+答案：B
+
+- A. 选项中 SRAM 和 DRAM 位置反了
+- C. 选项中，硬盘容量 1GB=$10^9$ Byte，因此容量应该为 8.192GB（回忆：内存及以上存储器使用 2 的幂次，硬盘使用 10 的幂次）
+- D. 选项中，平均旋转延迟为 $0.5\times(60\text{s}/6000\text{RPM})=5\text{ms}$，平均访问时间为 $9\text{ms} + 5\text{ms} = 14\text{ms}$
+- E. SDRAM 和 SRAM 无关，其 S 是 Synchronous 的缩写，表示同步的意思
+-->
 
 ---
 
@@ -2085,6 +2150,33 @@ D. SSD 有速度快、耗能低等优点，所以任何情况下都应使用 SSD
 
 </div>
 
+<div v-click>
+
+答案：C
+
+A. SRAM是易失性存储器，非易失性存储器指断电后仍然能保存数据，
+
+B. DRAM速度一般比SRAM慢
+
+C. 正确
+
+D. 旋转磁盘相比SSD仍然有价格便宜，不会磨损等优点
+
+
+</div>
+
+<!--
+答案：C
+
+A. SRAM是易失性存储器，非易失性存储器指断电后仍然能保存数据，
+
+B. DRAM速度一般比SRAM慢
+
+C. 正确
+
+D. 旋转磁盘相比SSD仍然有价格便宜，不会磨损等优点
+-->
+
 ---
 
 # 存储器层次习题
@@ -2101,6 +2193,27 @@ C. 访问一个磁盘扇区中 $512$ 个字节的时间主要是寻道时间和�
 
 D. 假设旋转速率未知，在通常情况下我们可以简单估计 $a = 60/b \times 1/2 \times 1000$ RPM
 
+
+<div v-click class="text-sm">
+答案：D
+A.	磁盘容量为2wxyz / 10^9 GB
+B.	访问一个磁盘扇区内容的平均时间为 (60/a * 1/2 * 1000 + 60/a / w * 1000 + b) ms
+C.	访问一个磁盘扇区中512个字节的时间主要是寻道时间和旋转延迟。访问扇区中的 第一个字节用了很长时间，但是访问剩下的字节几乎不用时间。
+D.	假设旋转速率未知，在通常情况下我们可以简单估计 a = 60/b * 1/2 * 1000 RPM（书上提到可以用寻道时间的两倍来估计访问时间，故可以用寻道时间估计旋转延迟）
+
+</div>
+
+<!--
+答案：D
+
+A.	磁盘容量为2wxyz / 10^9 GB
+
+B.	访问一个磁盘扇区内容的平均时间为 (60/a * 1/2 * 1000 + 60/a / w * 1000 + b) ms
+
+C.	访问一个磁盘扇区中512个字节的时间主要是寻道时间和旋转延迟。访问扇区中的 第一个字节用了很长时间，但是访问剩下的字节几乎不用时间。
+
+D.	假设旋转速率未知，在通常情况下我们可以简单估计 a = 60/b * 1/2 * 1000 RPM（书上提到可以用寻道时间的两倍来估计访问时间，故可以用寻道时间估计旋转延迟）
+-->
 
 ---
 layout: cover
