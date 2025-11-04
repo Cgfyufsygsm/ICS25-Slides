@@ -7,6 +7,7 @@ REPO_NAME=$1
 ./apply.sh 02 $REPO_NAME
 ./apply.sh 03 $REPO_NAME
 ./apply.sh 04 $REPO_NAME
+./apply.sh 05 $REPO_NAME
 
 ./update.sh $REPO_NAME
 
