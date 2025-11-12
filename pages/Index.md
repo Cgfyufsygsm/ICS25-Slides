@@ -79,7 +79,7 @@ transition: fade-out
 
 <div>
 
-6. [链接 + ECF]()
+6. [链接 + ECF](https://blog.imyangty.com/ICS25-Slides/06)
 7. [系统级 I/O + VM 1]()
 7. [VM 2]()
 8. [网络]()
