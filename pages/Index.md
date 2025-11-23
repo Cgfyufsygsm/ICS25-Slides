@@ -80,11 +80,11 @@ transition: fade-out
 <div>
 
 6. [链接 + ECF](https://blog.imyangty.com/ICS25-Slides/06)
-7. [系统级 I/O + VM 1]()
-7. [VM 2]()
-8. [网络]()
-9. [并发 1]()
-10. [并发 2]()
+7. [系统级 I/O](https://blog.imyangty.com/ICS25-Slides/07)
+8. [虚拟内存](https://blog.imyangty.com/ICS25-Slides/08)
+9. [网络]()
+10. [并发 1]()
+11. [并发 2]()
 
 </div>
 
