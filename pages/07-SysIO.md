@@ -1172,6 +1172,71 @@ Keypoint：**`printf` 有缓冲区，父子进程共享；`write` 由于直接�
   </div>
 
 ---
+
+# 作业题
+
+Homework
+
+下面程序的输出是？
+
+```c
+#include "csapp.h"
+
+int main() {
+  int fd1, fd2;
+  fd1 = Open("foo.txt", O_RDONLY, 0);
+  fd2 = Open("bar.txt", O_RDONLY, 0);
+  Close(fd2);
+  fd2 = Open("baz.txt", O_RDONLY, 0);
+  printf("fd2 = %d\n", fd2);
+  return 0;
+}
+```
+<div v-click>
+
+STDIN, STDOUT, STDERR 占用 0, 1, 2 三个 fd。fd1 和 fd2 为 3、4，然后 fd2 释放，再次分配也是到 4。
+
+**内核总是分配当前最小的可用描述符**
+
+</div>
+
+---
+
+# 作业题
+
+Homework
+
+修改 `cpfile` 程序，使得其有一可选命令行参数 `infile`。若给定，则复制 `infile` 到 stdout，否则和之前一样复制 stdio 到 stdout。必须使用已有的复制循环，只能插入代码，不能修改已有代码。
+
+```c
+#include "csapp.h"
+
+int main(int argc, char **argv) {
+    int n;
+    rio_t rio;
+    char buf[MAXLINE];
+    Rio_readinitb(&rio, STDIN_FILENO);
+    while((n = Rio_readlineb(&rio, buf, MAXLINE)) != 0) 
+      Rio_writen(STDOUT_FILENO, buf, n);
+    exit(0);
+}
+```
+
+<div v-click>
+
+在复制之前插入这段代码即可，思路是把 STDIN 重定向到 `infile`。
+
+```c
+if (argc == 2) {
+    int fd = Open(argv[1], O_RDONLY, 0);  // 打开 infile
+    Dup2(fd, STDIN_FILENO);               // 把 infile 复制到标准输入
+    Close(fd);                            // 关闭多余的 fd
+}
+```
+
+</div>
+
+---
 layout: cover
 class: text-center
 coverBackgroundUrl: /07-SysIO/cover.jpg
