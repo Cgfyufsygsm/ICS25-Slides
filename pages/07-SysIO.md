@@ -1101,7 +1101,7 @@ int main() {
 
 <div v-click>
 
-Keypoint：**`printf` 有缓冲区，父子进程共享；`write` 由于直接向文件输出，所以没有缓冲区。**
+Keypoint：**`printf` 有缓冲区，父子进程不共享；`write` 由于直接向文件输出，所以没有缓冲区。**
 
 </div>
 
