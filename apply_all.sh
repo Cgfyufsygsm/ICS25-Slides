@@ -11,6 +11,8 @@ REPO_NAME=$1
 ./apply.sh 06 $REPO_NAME
 ./apply.sh 07 $REPO_NAME
 ./apply.sh 08 $REPO_NAME
+./apply.sh 09 $REPO_NAME
+./apply.sh 10 $REPO_NAME
 
 ./update.sh $REPO_NAME
 
