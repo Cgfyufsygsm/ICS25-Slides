@@ -84,7 +84,7 @@ transition: fade-out
 8. [虚拟内存](https://blog.imyangty.com/ICS25-Slides/08)
 9. [网络](https://blog.imyangty.com/ICS25-Slides/09)
 10. [并发](https://blog.imyangty.com/ICS25-Slides/10)
-11. [同步]()
+11. [同步](https://blog.imyangty.com/ICS25-Slides/11)
 
 </div>
 
