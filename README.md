@@ -6,6 +6,17 @@
 
 编写和部署参考了 [Arthals-ICS-Slides](https://github.com/zhuozhiyongde/Arthals-ICS-Slides)。
 
+
+# LICENSE
+
+同 [Arthals-ICS-Slides](https://github.com/zhuozhiyongde/Arthals-ICS-Slides)。
+
+GPLv3 / CC-BY-NC-SA 4.0
+
+如果您不是北京大学的老师 / 助教，那么使用此仓库的内容需要联系我获得授权。
+
+若您是北京大学的老师 / 助教，那么您自动获得相关授权，只需要注明出处即可。
+
 ## 使用
 
 你需要首先安装 git 和 npm。
